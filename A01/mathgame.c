@@ -1,6 +1,6 @@
 /***************************************************
  * mathgame.c
- * Author: Bridge Schaad 
+ * Author: Bridge Schaad
  * Implements a math game
  * Created: 1/23/2023
  */
@@ -10,11 +10,11 @@
 #include <time.h>
 
 int main() {
-  int num_rounds, curr_rounds;/**num_rounds: number of rounds
-	     			 curr_rounds: number of correct rounds */
+  int num_rounds, corr_rounds;/**num_rounds: number of rounds
+	     			 corr_rounds: number of correct rounds */
   printf("Welcome to Math Game!\n");
   printf("How many rounds do you want to play? ");
-  scanf("%d", &num_rounds)
+  scanf("%d", &num_rounds);
 
 
 /**Figure out how to generate two random digits 1-10*/
@@ -28,7 +28,7 @@ int main() {
 	  scanf("%d", &given_ans);
 
 	  if (given_ans == random1+random2) {
-		curr_rounds++;
+		corr_rounds++;
 		printf("Correct!\n");
 	  }
 	  else {
