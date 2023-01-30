@@ -18,14 +18,13 @@ int main() {
 	int buff_len = strlen(buff);
 	char censor[4] = {'@', '!', '#', '*'};
 
-	// while next char != '\0'
 	srand(time(NULL));
 	for (int i = 0; i < buff_len; i++) {
 		if (buff[i] > 96 && buff[i] < 123) { // if next letter is lowercase
 			buff[i] = censor[(rand() % 4)]; // replace lowercase with 1 of 4 censor chars
 		}
 	}
-	printf("OMG! %s!\n", buff);
+	printf("OMG! %s\n", buff);
 
 	return 0; 
 }

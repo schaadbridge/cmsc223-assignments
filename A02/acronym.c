@@ -23,14 +23,6 @@ int main() {
 		}
 	}
 
-	/** // get first word
-	word = strtok(phrase, " ");
-
-	while (word != NULL) {
-		if (word[0] > 64 && word[0] < 91) // if uppercase letter
-		strncat(ret, word, 1);
-	} */
-
 	ret[ret_len] = '\0';
 	printf("Your acronym is %s\n", ret);
 	return 0;

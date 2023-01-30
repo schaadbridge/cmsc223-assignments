@@ -1,3 +1,11 @@
+/**
+ *  Songs.c
+ *  Fills an array with 3 songs and allows user to edit data in array.
+ *  Mostly struct practice.
+ *  Created by: Bridge
+ *  Due: 2/1/2023
+*/
+
 #include <stdio.h>
 #include <string.h>
 
@@ -31,14 +39,15 @@ int main() {
 	songList[2].seconds = 35;
 	songList[2].dancability = 0.2;
 
-	// print library
+	// Open program intro.
 	printf("Welcome to Bridge's Song List.\n");
 
 	while (1) {
 		printf("\n");
+		// print library
 		for (int i = 0; i < 3; i++) {
 			struct song temp = songList[i];
-			printf("%d) %-20s Artist: %-20s Duration: %d:%2d  Danceability: %.2f\n", i, temp.
+			printf("%d) %-20s Artist: %-20s Duration: %d:%02d  Danceability: %.2f\n", i, temp.
 			title, temp.artist, temp.minutes, temp.seconds, temp.dancability);
 		}
 		printf("================");
@@ -51,7 +60,7 @@ int main() {
 			break;
 		}
 		else {
-			struct song *temp = &songList[val];
+			struct song *temp = &songList[val]; 
 			printf("Title: %s  Artist:%s\n\n", temp->title, temp->artist);
 		 	printf("Which attribute do you wish to edit? [artist, title, duration, dancability]: ");
 		 	char attr[32];
