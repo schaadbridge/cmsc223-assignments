@@ -60,6 +60,7 @@ void addSong(char* buff, struct song* newSong) {
     } 
 }
 
+/** addLast adds the newLast to the end of a linked list with header *list */
 struct node* addLast(struct node* list, struct node* newLast) {
     struct node* n = list;
     while (n->next != NULL) { // find last node
@@ -71,6 +72,9 @@ struct node* addLast(struct node* list, struct node* newLast) {
     return n;
 }
 
+/** printLib prints the songs at each node in the linked list, followed by the number of 
+ *  songs in the list.
+ */
 void printLib(struct node* list) {
     int i = 0; // index
     for (struct node* n = list->next; n != NULL; n = n->next) {
@@ -81,8 +85,10 @@ void printLib(struct node* list) {
     printf("\nDataset contains %d songs.\n\n", i);
 }
 
+/** findDance prints, then returns the index of the node with the most danceable song. */
 int findDance(struct node* list) {
-    int i = 0; // index
+    // find index of node w/ max danceability
+    int i = 0;
     int maxPos; // track position of most danceable
     float max = 0; // track highest danceability rating
     for (struct node* n = list-> next; n != NULL; n = n-> next) {
@@ -92,7 +98,8 @@ int findDance(struct node* list) {
 	}
 	i++;
     }
-    // access node w/ max danceability and print
+
+    // print node w/ max danceability
     struct node* n = list;
     for (int j = 0; j <= maxPos; j++) {
 	n = n->next;
