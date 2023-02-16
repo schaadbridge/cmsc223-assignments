@@ -60,7 +60,7 @@ void addSong(char* buff, struct song* newSong) {
     } 
 }
 
-/** addLast adds the newLast to the end of a linked list with header *list */
+/** addLast inserts the newLast to the end of a linked list with header *list */
 struct node* addLast(struct node* list, struct node* newLast) {
     struct node* n = list;
     while (n->next != NULL) { // find last node
@@ -106,9 +106,9 @@ int findDance(struct node* list) {
 	    n = n->next;
 	}
 	printf("-------------------------- Most Danceable ----------------------------------\n");
-	printf("%-25s Artist: %-20s (%d:%02ds)  D: %.2f E: %.3f \nT: %3.3f V: %.3f\n", n->val->title, 
+	printf("    %-25s Artist: %-20s (%d:%02ds)  D: %.2f E: %.3f \n    T: %3.3f V: %.3f\n", n->val->title, 
 	n->val->artist, n->val->minutes, n->val->seconds, n->val->danceability, n->val->energy, n->val->tempo, n->val->valence);
-    printf("----------------------------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------------\n\n");
     }
     return maxPos;
 }
@@ -116,7 +116,6 @@ int findDance(struct node* list) {
 int main() {
     // open file
     FILE* infile = NULL;
-    // FILE* outfile = NULL;
 
     infile = fopen("songlist.csv", "r");
     if (infile == NULL) {
