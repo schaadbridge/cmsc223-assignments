@@ -27,7 +27,7 @@ struct song {
 
 
 /** 
- * addSong fills a struct song* with data from the char* buff, using comma delineated tokens
+ * addSong fills a struct song* with data from the char* buff
  */
 void addSong(char* buff, struct song* newSong) {    
     char* token = strtok(buff, ",\n");
@@ -41,8 +41,8 @@ void addSong(char* buff, struct song* newSong) {
 		strcpy(newSong->artist, token);
         }
         else if (i%7 == 3) {
-	    newSong->minutes = atoi(token)/60000; // convert milliseconds to minutes
-	    newSong->seconds = atoi(token)%60000 / 1000; // convert milliseconds to seconds
+	    newSong->minutes = atoi(token) / 60000; // convert milliseconds to minutes
+	    newSong->seconds = atoi(token) % 60000 / 1000; // convert milliseconds to seconds
 	}
 	else if (i%7 == 4) {
 	    newSong->danceability = atof(token);
@@ -78,8 +78,10 @@ struct node* addLast(struct node* list, struct node* newLast) {
 void printLib(struct node* list) {
     int i = 0; // index
     for (struct node* n = list->next; n != NULL; n = n->next) {
-	printf("%2d) %-25s Artist: %-20s (%d:%02ds)  D: %.2f E: %.3f\n    T: %3.3f V: %.3f\n", 
-	i, n->val->title, n->val->artist, n->val->minutes, n->val->seconds, n->val->danceability, n->val->energy, n->val->tempo, n->val->valence);
+	printf("%2d) %-25s Artist: %-20s (%d:%02ds)  D: %.2f E: %.3f\n    " 
+		"T: %3.3f V: %.3f\n", i, n->val->title, n->val->artist, n->val->minutes, 
+		n->val->seconds, n->val->danceability, n->val->energy, n->val->tempo, 
+		n->val->valence);
 	i++;
     }
     printf("\nDataset contains %d songs.\n\n", i);
@@ -105,10 +107,14 @@ int findDance(struct node* list) {
 	for (int j = 0; j <= maxPos; j++) {
 	    n = n->next;
 	}
-	printf("-------------------------- Most Danceable ----------------------------------\n");
-	printf("    %-25s Artist: %-20s (%d:%02ds)  D: %.2f E: %.3f \n    T: %3.3f V: %.3f\n", n->val->title, 
-	n->val->artist, n->val->minutes, n->val->seconds, n->val->danceability, n->val->energy, n->val->tempo, n->val->valence);
-    printf("----------------------------------------------------------------------------\n\n");
+	printf("-------------------------- Most Danceable "
+               "----------------------------------\n");
+	printf("    %-25s Artist: %-20s (%d:%02ds)  D: %.2f E: %.3f \n    "
+		"T: %3.3f V: %.3f\n", n->val->title, n->val->artist, n->val->minutes, 
+		n->val->seconds, n->val->danceability, n->val->energy, n->val->tempo, 
+		n->val->valence);
+	printf("--------------------------------------------------------"
+		"--------------------\n\n");
     }
     return maxPos;
 }
