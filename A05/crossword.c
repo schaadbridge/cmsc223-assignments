@@ -1,7 +1,7 @@
 /*----------------------------------------------
- * Author: 
- * Date: 
- * Description
+ * Author: Bridge Schaad
+ * Date: 2/21/2023
+ * Description: Take two words and print crossword formation if they have a letter in common.
  ---------------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,7 +11,7 @@
 void printArr(char* two_d_array, int len1, int len2) {
     for (int i = 0; i < len1; i++) { // rows
 	for (int j = 0; j < len2; j++) { // columns
-	    printf("%c", two_d_array[i*len2 + j]);
+	    printf("%c ", two_d_array[i*len2 + j]);
 	}
 	printf("\n");
     }
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
 		break;
 	    }
 	}
-	// put this in a function eventually
+	
 	for (int i = 0; i < len1; i++) { // rows
 	    for (int j = 0; j < len2; j++) { // columns
 		if (i == pos1) {
@@ -70,7 +70,6 @@ int main(int argc, char* argv[]) {
 		}
 	    }
 	}
-	// write a function to print contents of the array
 	printArr(two_d_array, len1, len2);
 	free(two_d_array);
     }
