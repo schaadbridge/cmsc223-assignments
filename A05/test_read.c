@@ -17,8 +17,8 @@ int main() {
     printf("Testing file feep-raw.ppm: %d %d\n", w, h);
     for (int i = 0; i < w; i++) { // rows
 	for (int j = 0; j < h; j++) { // columns
-	    printf("(%d,%d,%d) ", pixels[i * h + j].red, pixels[i*h + j].green, 
-	    pixels[i*h +j].blue);
+	    printf("(%d,%d,%d) ", pixels[i * h + j].red, pixels[i * h + j].green, 
+	    pixels[i * h +j].blue);
 	}
 	printf("\n");
     }

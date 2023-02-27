@@ -44,6 +44,7 @@ int main(int argc, char* argv[]) {
     free(freq1);
     freq1 = NULL;
 
+    /** Print crossword. */
     if (pos2 < 0) { 
 	printf("No common letter!\n");
     }

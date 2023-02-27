@@ -27,7 +27,6 @@ struct ppm_pixel* read_ppm(const char* filename, int* w, int* h) {
 
     int maxval; // max color val
     fscanf(infile, "%d%*c", &maxval); // takes care of single newline
-    printf("Maxval: %d \n", maxval);
 
     // fill flat array
     struct ppm_pixel* new = malloc(sizeof(struct ppm_pixel) * pixels);
