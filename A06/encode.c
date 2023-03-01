@@ -1,6 +1,6 @@
 /*----------------------------------------------
  * Author: Bridge Schaad 
- * Date: 2/27/2023
+ * Date: 3/1/2023
  * Description: Read in a PPM file and embed a user-provided message within it.
  ---------------------------------------------*/
 #include <stdio.h>
@@ -20,6 +20,12 @@ int main(int argc, char** argv) {
     int h;
     struct ppm_pixel* pixels = read_ppm(argv[1], &w, &h);
     
+    if (pixels == NULL) {
+	printf("File could not be read. Exiting.\n");
+	exit(1);
+    }
+    printf("Reading %s with width %d and height %d.\n", argv[1], w, h);
+    
     // get phrase
     int max_chars = (w * h * 3 / 8) - 1; // not including terminating char
  
@@ -31,6 +37,7 @@ int main(int argc, char** argv) {
 
     if (phrase_len > max_chars) {
 	printf("Phrase length is greater than max length. Exiting.\n");
+	free(pixels);
 	exit(1);
     }
     
@@ -77,17 +84,7 @@ int main(int argc, char** argv) {
     printf("Writing file: %s\n", new_file);
     write_ppm(new_file, pixels, w, h);
     free(pixels);
-    pixels = NULL;
-    pixels = read_ppm(new_file, &w, &h);
-    printf("Testing file %s: %d %d\n", new_file, w, h);
-    for (int i = 0; i < w; i++) { // rows
-	for (int j = 0; j < h; j++) { // columns
-	    printf("(%d,%d,%d) ", pixels[i * h + j].red, pixels[i * h + j].green, 
-	    pixels[i * h +j].blue);
-	}
-	printf("\n");
-    }
-    free(pixels);
+    free(phrase);
     return 0;
 }
 
