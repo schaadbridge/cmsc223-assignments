@@ -19,19 +19,17 @@ int main(int argc, char** argv) {
     struct ppm_pixel* pixels = read_ppm(argv[1], &w, &h);
     
     // todo: print out the grid of pixels
-    // printf("Testing file feep-raw.ppm: %d %d\n", w, h);
-    // for (int i = 0; i < w; i++) { // rows
-	    //for (int j = 0; j < h; j++) { // columns
-		// printf("(%d,%d,%d) ", pixels[i * h + j].red, pixels[i * h + j].green, 
-		// pixels[i * h + j].blue);
-	// }
-	//printf("\n");
-    //}
-
-    printf("Reading %s with width %d and height %d\n", argv[0], w, h);
-    // count until '\0'
-    char* bitstring = malloc(w * h * 3 / 8 + 1); // total rgb vals * 1 char / 8 bits
-    for (int i = 0; i < (w*h*3/8); i++) {
+    printf("Testing file feep-raw.ppm: %d %d\n", w, h);
+    for (int i = 0; i < w; i++) { // rows
+        for (int j = 0; j < h; j++) { // columns
+	    printf("(%d,%d,%d) ", pixels[i * h + j].red, pixels[i * h + j].green, 
+	    pixels[i * h + j].blue);
+	}
+	printf("\n");    
+    }
+    printf("Reading %s with width %d and height %d\n", argv[1], w, h);
+    unsigned char* bitstring = malloc(w * h * 3 / 8 + 1); // total rgb vals * 1 char / 8 bits
+    for (int i = 0; i < (w * h * 3 / 8); i++) {
 	bitstring[i] = 0;
     }
     int max_chars = 0;
@@ -43,10 +41,10 @@ int main(int argc, char** argv) {
 	if (i % 3 == 0) {
 	    code = pixels[i / 3].red & 0x01;
 	}
-	if (i % 3 == 1) {
+	else if (i % 3 == 1) {
 	    code = pixels[i / 3].green & 0x01;
 	}
-	if (i % 3 == 2) {
+	else if (i % 3 == 2) {
 	    code = pixels[i / 3].blue & 0x01;
 	}
 	bitstring[i / 8] = bitstring[i / 8] | code;
@@ -59,7 +57,7 @@ int main(int argc, char** argv) {
     } 
     printf("Max number of characters in the image: %d\n", max_chars);
     
-    printf("%s\n", bitstring);    
+    printf("\n%s\n", bitstring);    
     
     free(pixels);
     free(bitstring);

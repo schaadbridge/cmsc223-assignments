@@ -1,7 +1,7 @@
 /*----------------------------------------------
- * Author: 
- * Date: 
- * Description
+ * Author: Bridge Schaad 
+ * Date: 2/28/23
+ * Description: Write an array of pixels into a ppm file
  ---------------------------------------------*/
 #include "write_ppm.h"
 #include <stdio.h>
