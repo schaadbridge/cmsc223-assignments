@@ -35,27 +35,27 @@ void addSong(char* buff, struct song* newSong) {
     while (token) {
         i++;
         if (i%7 == 1) {
-		strcpy(newSong->title, token);
+            strcpy(newSong->title, token);
         }
         else if (i%7 == 2) {
-		strcpy(newSong->artist, token);
+            strcpy(newSong->artist, token);
         }
         else if (i%7 == 3) {
-	    newSong->minutes = atoi(token) / 60000; // convert milliseconds to minutes
-	    newSong->seconds = atoi(token) % 60000 / 1000; // convert milliseconds to seconds
-	}
-	else if (i%7 == 4) {
-	    newSong->danceability = atof(token);
-	}
-	else if (i%7 == 5) {
-	    newSong->energy = atof(token);
-	}
-	else if (i%7 == 6) {
-	    newSong->tempo = atof(token);
-	}
-	else if (i%7 == 0) {
-	    newSong->valence = atof(token);
-	}
+            newSong->minutes = atoi(token) / 60000; // convert milliseconds to minutes
+            newSong->seconds = atoi(token) % 60000 / 1000; // convert milliseconds to seconds
+        }
+        else if (i%7 == 4) {
+            newSong->danceability = atof(token);
+        }
+        else if (i%7 == 5) {
+            newSong->energy = atof(token);
+        }
+        else if (i%7 == 6) {
+            newSong->tempo = atof(token);
+        }
+        else if (i%7 == 0) {
+            newSong->valence = atof(token);
+        }
         token = strtok(NULL, ",");
     } 
 }
@@ -64,11 +64,11 @@ void addSong(char* buff, struct song* newSong) {
 struct node* addLast(struct node* list, struct node* newLast) {
     struct node* n = list;
     while (n->next != NULL) { // find last node
-	n = n->next;
+        n = n->next;
     }
     n->next = newLast;
     n = newLast;
-    
+
     return n;
 }
 
@@ -78,11 +78,11 @@ struct node* addLast(struct node* list, struct node* newLast) {
 void printLib(struct node* list) {
     int i = 0; // index
     for (struct node* n = list->next; n != NULL; n = n->next) {
-	printf("%2d) %-25s Artist: %-20s (%d:%02ds)  D: %.2f E: %.3f\n    " 
-		"T: %3.3f V: %.3f\n", i, n->val->title, n->val->artist, n->val->minutes, 
-		n->val->seconds, n->val->danceability, n->val->energy, n->val->tempo, 
-		n->val->valence);
-	i++;
+        printf("%2d) %-25s Artist: %-20s (%d:%02ds)  D: %.2f E: %.3f\n    " 
+                "T: %3.3f V: %.3f\n", i, n->val->title, n->val->artist, n->val->minutes, 
+                n->val->seconds, n->val->danceability, n->val->energy, n->val->tempo, 
+                n->val->valence);
+        i++;
     }
     printf("\nDataset contains %d songs.\n\n", i);
 }
@@ -94,27 +94,27 @@ int findDance(struct node* list) {
     int maxPos = 0; // track position of most danceable
     float max = 0; // track highest danceability rating
     for (struct node* n = list-> next; n != NULL; n = n-> next) {
-	if (n->val->danceability > max) {
-	    max = n->val->danceability;
-	    maxPos = i;
-	}
-	i++;
+        if (n->val->danceability > max) {
+            max = n->val->danceability;
+            maxPos = i;
+        }
+        i++;
     }
 
     // print node w/ max danceability
     if (list->next != NULL) {
-	struct node* n = list;
-	for (int j = 0; j <= maxPos; j++) {
-	    n = n->next;
-	}
-	printf("-------------------------- Most Danceable "
-               "----------------------------------\n");
-	printf("    %-25s Artist: %-20s (%d:%02ds)  D: %.2f E: %.3f \n    "
-		"T: %3.3f V: %.3f\n", n->val->title, n->val->artist, n->val->minutes, 
-		n->val->seconds, n->val->danceability, n->val->energy, n->val->tempo, 
-		n->val->valence);
-	printf("--------------------------------------------------------"
-		"--------------------\n\n");
+        struct node* n = list;
+        for (int j = 0; j <= maxPos; j++) {
+            n = n->next;
+        }
+        printf("-------------------------- Most Danceable "
+                "----------------------------------\n");
+        printf("    %-25s Artist: %-20s (%d:%02ds)  D: %.2f E: %.3f \n    "
+                "T: %3.3f V: %.3f\n", n->val->title, n->val->artist, n->val->minutes, 
+                n->val->seconds, n->val->danceability, n->val->energy, n->val->tempo, 
+                n->val->valence);
+        printf("--------------------------------------------------------"
+                "--------------------\n\n");
     }
     return maxPos;
 }
@@ -125,60 +125,60 @@ int main() {
 
     infile = fopen("songlist.csv", "r");
     if (infile == NULL) {
-	printf("Error: unable to open songlist.");
-	exit(1);
+        printf("Error: unable to open songlist.");
+        exit(1);
     }
     char firstline[256];
     fgets(firstline, 256, infile);
-  
+
     // fill linked list
     struct song* head = NULL;
     struct node headNode = {head, NULL};
     struct node *list = &headNode; 
     char buffer[1024];
     while (fgets(buffer, 1024, infile)) {
-	struct node* newNode = malloc(sizeof(struct node));
-	newNode -> next = NULL;
-	struct song* newSong = malloc(sizeof(struct song));
-	addSong(buffer, newSong);
-	newNode -> val = newSong;
-	addLast(list, newNode);
+        struct node* newNode = malloc(sizeof(struct node));
+        newNode -> next = NULL;
+        struct song* newSong = malloc(sizeof(struct song));
+        addSong(buffer, newSong);
+        newNode -> val = newSong;
+        addLast(list, newNode);
     }
 
     // find most danceable
     while (1) {
-	printLib(list);
-	printf("Press 'd' to show the most danceable song (any other key to quit): ");
-	char entry;
-	scanf("%[^\n]%*c", &entry);
-	if (entry != 'd') {
-	    break;
-	}
-	else {
-	    // find most danceable
-	    int dancePos = findDance(list);
-	    // delete most danceable
-	    if (list->next != NULL) {
-		struct node* n = list;
-		for (int i = 0; i < dancePos; i++) {
-		    n = n->next;
-		}
-		struct node* tmp = n->next;
-		n->next = tmp->next;
-		free(tmp->val);
-		free(tmp);
-	    }
-	}
+        printLib(list);
+        printf("Press 'd' to show the most danceable song (any other key to quit): ");
+        char entry;
+        scanf("%[^\n]%*c", &entry);
+        if (entry != 'd') {
+            break;
+        }
+        else {
+            // find most danceable
+            int dancePos = findDance(list);
+            // delete most danceable
+            if (list->next != NULL) {
+                struct node* n = list;
+                for (int i = 0; i < dancePos; i++) {
+                    n = n->next;
+                }
+                struct node* tmp = n->next;
+                n->next = tmp->next;
+                free(tmp->val);
+                free(tmp);
+            }
+        }
     }
- 
+
     // close file and free list
     fclose(infile);
     struct node* n = list->next;
     while (n!=NULL) {
-	struct node* toDelete = n;
-	n = n->next;
-	free(toDelete->val);	
-	free(toDelete); 
+        struct node* toDelete = n;
+        n = n->next;
+        free(toDelete->val);	
+        free(toDelete); 
     }
     return 0;
 }
