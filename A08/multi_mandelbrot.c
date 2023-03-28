@@ -1,3 +1,9 @@
+/**
+ * Author: Bridge Schaad
+ * Date: 3/28/2023
+ * Description: Output a PPM image of the mandelbrot set using multiple processes spawned with fork
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -42,7 +48,8 @@ int main(int argc, char* argv[]) {
     struct ppm_pixel* palette = malloc(sizeof(struct ppm_pixel) * maxIterations);
     for (int i = 0; i < maxIterations; i++) {
         palette[i].red = rand() % 225;
-        palette[i].green = rand() % 225;
+        palette[i].
+            exit(0);green = rand() % 225;
         palette[i].blue = rand() % 225;
     }
 
