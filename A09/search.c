@@ -25,7 +25,7 @@ void* find_search(void* userdata) {
       found ++;
       data->s_index = i;
       break;
-   } 
+    } 
   }
   return (void*) NULL;
 }
@@ -42,12 +42,12 @@ int main(int argc, char** argv) {
   fread(&size, sizeof(int), 1, fp); // read in size
   int* data = malloc(sizeof(int) * size);
   fread(data, sizeof(int), size, fp);
-                           
+
   int search = 0;
   printf("Enter a value to search: ");
   scanf("%d", &search);
   srand(time(0));
-  
+
   int num_threads = atoi(argv[1]);
   printf("Searching data of size %d with %d threads.\n\n", size, num_threads);
   int subsize = size/num_threads;
@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
     t_data[i].s_index = -1;
     pthread_create(&threads[i], NULL, find_search, (void*) &t_data[i]);
   }
-  
+
   int found = 0;
   for (int i = 0; i < num_threads; i++) {
     pthread_join(threads[i], NULL);

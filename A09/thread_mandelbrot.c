@@ -63,32 +63,32 @@ void* fill_pix(void* userdata) {
 }
 
 int main(int argc, char* argv[]) {
-	int size = 480;
-	float xmin = -2.0;
-	float xmax = 0.47;
-	float ymin = -1.12;
-	float ymax = 1.12;
-	int maxIterations = 1000;
-	int numThreads = 4;
+  int size = 480;
+  float xmin = -2.0;
+  float xmax = 0.47;
+  float ymin = -1.12;
+  float ymax = 1.12;
+  int maxIterations = 1000;
+  int numThreads = 4;
 
-	int opt;
-	while ((opt = getopt(argc, argv, ":s:l:r:t:b:p:")) != -1) {
-		switch (opt) {
-			case 's': size = atoi(optarg); break;
-			case 'l': xmin = atof(optarg); break;
-			case 'r': xmax = atof(optarg); break;
-			case 't': ymax = atof(optarg); break;
-			case 'b': ymin = atof(optarg); break;
-			case '?': printf("usage: %s -s <size> -l <xmin> -r <xmax> "
-						  "-b <ymin> -t <ymax> -p <numProcesses>\n", argv[0]); break;
-		}
-	}
-	printf("Generating mandelbrot with size %dx%d\n", size, size);
-	printf("  X range = [%.4f,%.4f]\n", xmin, xmax);
-	printf("  Y range = [%.4f,%.4f]\n", ymin, ymax);
+  int opt;
+  while ((opt = getopt(argc, argv, ":s:l:r:t:b:p:")) != -1) {
+    switch (opt) {
+      case 's': size = atoi(optarg); break;
+      case 'l': xmin = atof(optarg); break;
+      case 'r': xmax = atof(optarg); break;
+      case 't': ymax = atof(optarg); break;
+      case 'b': ymin = atof(optarg); break;
+      case '?': printf("usage: %s -s <size> -l <xmin> -r <xmax> "
+                    "-b <ymin> -t <ymax> -p <numProcesses>\n", argv[0]); break;
+    }
+  }
+  printf("Generating mandelbrot with size %dx%d\n", size, size);
+  printf("  X range = [%.4f,%.4f]\n", xmin, xmax);
+  printf("  Y range = [%.4f,%.4f]\n", ymin, ymax);
 
-	// todo: your code here
-	// generate pallet
+  // todo: your code here
+  // generate pallet
   srand(time(NULL));
   struct ppm_pixel* palette = malloc(sizeof(struct ppm_pixel) * maxIterations);
   for (int i = 0; i < maxIterations; i++) {
@@ -117,8 +117,8 @@ int main(int argc, char* argv[]) {
     data[i].t_maxIterations = maxIterations;
     data[i].t_size = size;
     printf("Thread %ld) sub-image block: cols (%d, %d) to rows (%d, %d)\n", 
-          threads[i], data[i].xsmall, data[i].xlarge, data[i].ysmall, 
-          data[i].ylarge);
+        threads[i], data[i].xsmall, data[i].xlarge, data[i].ysmall, 
+        data[i].ylarge);
     pthread_create(&threads[i], NULL, fill_pix, &data[i]);
   }
 
@@ -129,10 +129,10 @@ int main(int argc, char* argv[]) {
 
   gettimeofday(&tend, NULL);
   double time_diff = tend.tv_sec - tstart.tv_sec + (tend.tv_usec - 
-                      tstart.tv_usec)/1.e6;
+      tstart.tv_usec)/1.e6;
   printf("Computed mandelbrot set (%dx%d) in %g seconds.\n", size, size, 
-          time_diff);
-  
+      time_diff);
+
   // write array into file
   time_t timestamp = time(0);
   char new_file[40] = "";
