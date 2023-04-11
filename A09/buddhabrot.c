@@ -1,5 +1,5 @@
 /* Author: Bridge Schaad
- * Date: 4/8/2023
+ * Date: 4/10/2023
  * Description: Outputs a PPM image of the buddhabrot set using multiple threads.
  */
 
@@ -34,7 +34,7 @@ struct thread_data {
 
 void* fill_pix(void* userdata) {
   struct thread_data *data = (struct thread_data*) userdata;
-
+  int* membership = malloc (sizeof(int) * data->size * data->size);
   // step 1: determine mandelbrot set membership
   for (double i = data->xsmall; i < data->xlarge; i++) { // for each row
     for (double j = data->ysmall; j < data->ylarge; j++) { // for each column
@@ -47,27 +47,53 @@ void* fill_pix(void* userdata) {
       double x = 0;
       double y = 0;
       int iter = 0;
-      while ((iter < data->maxIterations) && ((x*x + y*y) < 4)) {
+      while (iter < data->maxIterations && ((x*x + y*y) < 4)) {
         double xtmp = x*x - y*y + x0;
         y = 2*x*y + y0;
         x = xtmp;
         iter++;
       }
 
-      // step 2: compute visited counts
-      if (iter < data->maxIterations) { // if membership = false
-        int yrow = round(data->size * (y - data->ymin) / (data->ymax - data->ymin));
-        int xcol = round(data->size * (x - data->xmin) / (data->xmax - data->xmin));
-        int count_idx = yrow * data->size + xcol;
-        if (yrow < 0 || yrow >= data->size) { continue;}
-        if (xcol < 0 || xcol >= data->size) { continue;}    
+      if (iter < data->maxIterations) {
+        membership[idx] = 0;
+      }
+      else {
+        membership[idx] = 1;
+      }
+    }
+  }
+
+  // step 2: compute visited counts
+  for (double i = data->xsmall; i < data->xlarge; i++) { // for each row
+    for (double j = data->ysmall; j < data->ylarge; j++) { // for each column
+      int idx = j * data->size + i;
+      if (membership[idx] == 0) {
+        double xfrac = i / (double)data->size;
+        double yfrac = j / (double)data->size;
+        double x0 = data->xmin + xfrac * (data->xmax - data->xmin);
+        double y0 = data->ymin + yfrac * (data->ymax - data->ymin);
+        int idx = j * data->size + i;
+
+        double x = 0;
+        double y = 0;
+        while ((x*x + y*y) < 4) {
+          double xtmp = x*x - y*y + x0;
+          y = 2*x*y + y0;
+          x = xtmp;
+
+          int yrow = round(data->size * (y - data->ymin) / (data->ymax - data->ymin));
+          int xcol = round(data->size * (x - data->xmin) / (data->xmax - data->xmin));
+          int count_idx = yrow * data->size + xcol;
+          if (yrow < 0 || yrow >= data->size) { continue;}
+          if (xcol < 0 || xcol >= data->size) { continue;}    
            
-        pthread_mutex_lock(&mutex);
-        data->count[count_idx] ++;
-        if (data->count[count_idx] > data->maxcount) { // update maxcounts
-          data->maxcount = data->count[count_idx];
+          pthread_mutex_lock(&mutex);
+          data->count[count_idx] ++;
+          if (data->count[count_idx] > data->maxcount) { // update maxcounts
+            data->maxcount = data->count[count_idx];
+          }
+          pthread_mutex_unlock(&mutex);
         }
-        pthread_mutex_unlock(&mutex);
       }
     }
   }
