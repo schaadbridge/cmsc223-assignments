@@ -119,7 +119,7 @@ void* fill_pix(void* userdata) {
       data->array[idx] = color;
     }
   }
- 
+  free(membership);
   return (void *) NULL;
 }
 
