@@ -11,12 +11,40 @@
 #define LOOP 10
 
 struct chunk {
-  int size;
-  int used;
+  int size; // size of mem allocated from sbrk
+  int used; // amount currently in use
   struct chunk *next;
 };
 
 void memstats(struct chunk* freelist, void* buffer[], int len) {
+  // the total number of memory blocks allocated by malloc
+  int blocks = 0;
+  int blocks_used = 0;
+  int mem_allocd = 0;
+  int mem_used = 0;
+  int mem_unused = 0;
+
+  for (int i = 0; i < len; i++) {
+    if (buffer[i] != NULL) {
+      blocks++;
+      blocks_used++;
+      struct chunk* cnk = (struct chunk*)buffer[i]-1;
+      mem_allocd += cnk->size;
+      mem_used += cnk->size;
+      mem_unused += (cnk->size - cnk->used);
+    }
+  }
+  struct chunk* ptr = freelist;
+  while (ptr != NULL) {
+    blocks++;
+    mem_allocd += ptr->size;
+    ptr = ptr->next;
+  }
+  //print stats
+  printf("Total blocks: %d Free blocks: %d Used blocks: %d\n", blocks, blocks-blocks_used, blocks_used);
+  // underutilized memory
+  printf("Total memory allocated: %d Free memory: %d Used memory: %d\n", mem_allocd, mem_allocd-mem_used, mem_used);
+  printf("Underutilized memory: %.2f\n", (double)(mem_unused)/(double)mem_used);
 }
 
 int main ( int argc, char* argv[]) {
